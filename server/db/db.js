@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(process.env.MONGODB_URL, {
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 5000,
   keepAlive: true,
