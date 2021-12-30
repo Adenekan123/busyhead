@@ -25,7 +25,6 @@ Router.post("/api/user", async (req, res) => {
 });
 
 Router.get("/api/profile", async (req, res) => {
-  console.log(req.user);
   res.json(req.user);
 });
 

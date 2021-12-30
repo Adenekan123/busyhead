@@ -4,6 +4,9 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { BASE_API_URL } from "../../utils/constant";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Register = () => {
   const [state, setState] = useState({
     firstname: "",
@@ -17,7 +20,6 @@ const Register = () => {
   const navigate = useNavigate();
 
   const updateinput = (e) => {
-    console.log(e.target.value);
     setState((prevstate) => ({
       ...prevstate,
       [e.target.name]: e.target.value,
@@ -26,6 +28,7 @@ const Register = () => {
 
   async function regUser(event) {
     event.preventDefault();
+    const id = toast.loading("Submitting Data");
     try {
       const response = await fetch(`${BASE_API_URL}/api/user`, {
         method: "POST",
@@ -39,11 +42,23 @@ const Register = () => {
       const result = await response.json();
       console.log(result);
       if (result._id) {
-        alert("Account created successfully");
+        toast.update(id, {
+          render: "Account Created Successfully. Now Login",
+          type: "success",
+          isLoading: false,
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 7000,
+        });
         return navigate("/login", { replace: true });
       }
     } catch (err) {
-      alert("Something went wrong. Contact admin");
+      toast.update(id, {
+        render: "Unable To Submit Data. Check Your Internet Connection",
+        type: "error",
+        isLoading: false,
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 7000,
+      });
     }
   }
   return (
@@ -112,6 +127,7 @@ const Register = () => {
           Already have an account ? <Link to="/login">Login</Link>
         </p>
       </form>
+      <ToastContainer />
     </Wrapper>
   );
 };

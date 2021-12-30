@@ -24,7 +24,8 @@ const NewTask = () => {
 
   useEffect(() => {
     if (document && docid) {
-      fetch(`${BASE_API_URL}/${document}/${docid}/${id}`, {
+      console.log(`${BASE_API_URL}/${document}/${docid}/${id}`);
+      fetch(`${BASE_API_URL}/api/${document}/${docid}/${id}`, {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -34,8 +35,9 @@ const NewTask = () => {
           return response.json();
         })
         .then((result) => {
+          console.log({ result });
+
           const { tasks } = result.data[0];
-          // console.log({tasks});
           setState((prevState) => ({
             title: tasks[0].title,
             description: tasks[0].description,
@@ -61,6 +63,7 @@ const NewTask = () => {
     if (!validateInput()) return alert("Please enter all required fileds");
     const response = await fetch(`${BASE_API_URL}/api/${document}/update`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-type": "application/json",
       },
@@ -68,6 +71,7 @@ const NewTask = () => {
     });
 
     const result = await response.json();
+    console.log(result);
     if (result.updatedCount) {
       alert("Task updated successfully");
       setState(inistialState);

@@ -2,14 +2,29 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { Wrapper } from "./Card.styles";
-import CountDown from "../CountDown";
+import Countdown from "react-countdown";
 
 import { useDispatch } from "react-redux";
 
+import { setTodos } from "../../redux/ducks/todos";
+import { getReminders } from "../../redux/ducks/reminder";
+
 const Card = ({ todos, task, docid, showdate, toggleSelect, isSelected }) => {
+  const dispatch = useDispatch();
+
   const { _id, title, date } = task;
   let pathname = location.pathname;
   pathname = pathname == "/" ? "/todos" : pathname;
+
+  const callback = () => {
+    const newtodos = [...todos];
+    const todoindex = newtodos.findIndex((todo) => todo._id === docid);
+    newtodos[todoindex].tasks = newtodos[todoindex].tasks.filter(
+      (task) => task._id != _id
+    );
+    dispatch(setTodos(newtodos));
+    dispatch(getReminders());
+  };
 
   return (
     <Wrapper>
@@ -30,8 +45,7 @@ const Card = ({ todos, task, docid, showdate, toggleSelect, isSelected }) => {
       <div>
         {showdate && (
           <div className="countdown">
-            {date}
-            {/* <CountDown todos={todos} date={date} docid={docid} _id={_id} /> */}
+            <Countdown date={date} onComplete={callback} />
           </div>
         )}
 

@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { Wrapper } from "./Archive.styles";
 import List from "../List";
 import ActionBtns from "../ActionBtns";
+import Loader from "../Loader";
 
 //Actions
-import { getArchive, setArchive } from "../../redux/ducks/archive";
+import { getArchive, setArchive, setLoader } from "../../redux/ducks/archive";
 
 import { BASE_API_URL } from "../../utils/constant";
 
@@ -18,8 +20,14 @@ const Archives = () => {
     useSelect();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getArchive());
+  }, [dispatch]);
 
   const resetAll = async () => {
+    dispatch(setLoader(true));
     const allSelects = [...select];
     const response = await fetch(`${BASE_API_URL}/api/archives/reset`, {
       method: "POST",
@@ -32,9 +40,11 @@ const Archives = () => {
 
     const { data } = await response.json();
     dispatch(setArchive(data));
+    dispatch(setLoader(false));
     setSelect([]);
   };
   const deleteAll = async () => {
+    dispatch(setLoader(true));
     const allSelects = [...select];
     const response = await fetch(`${BASE_API_URL}/api/archives/delete`, {
       method: "DELETE",
@@ -47,37 +57,47 @@ const Archives = () => {
 
     const { data } = await response.json();
     dispatch(setArchive(data));
+    dispatch(setLoader(false));
     setSelect([]);
   };
 
-  useEffect(() => {
-    dispatch(getArchive());
-  }, [dispatch]);
-
+  const loader = useSelector((state) => state.archives.loader);
   const todos = useSelector((state) => state.archives.archives);
-  if (!Array.isArray(todos) || todos.length === 0)
-    return <h3>No Archives found</h3>;
+
+  if (todos && todos.loggedin === false) {
+    dispatch(setLoader(false));
+    localStorage.removeItem("isAuth");
+    navigate("/login");
+  }
+
+  if (todos && todos.length === 0) {
+    dispatch(setLoader(false));
+    return <h3>No archives found</h3>;
+  }
 
   return (
     <Wrapper>
+      {loader && <Loader />}
       <ActionBtns
         btns={[
           { title: "Reset task", action: resetAll },
           { title: "Delete", action: deleteAll },
         ]}
       />
-      {todos && Array.isArray(todos)
-        ? todos.map((todo, index) => (
-            <List
-              showdate={false}
-              todo={todo}
-              toggleSelectAll={toggleSelectAll}
-              toggleSelect={toggleSelect}
-              isSelected={isSelected}
-              key={index}
-            />
-          ))
-        : "Loading.."}
+      {todos && Array.isArray(todos) ? (
+        todos.map((todo, index) => (
+          <List
+            showdate={false}
+            todo={todo}
+            toggleSelectAll={toggleSelectAll}
+            toggleSelect={toggleSelect}
+            isSelected={isSelected}
+            key={index}
+          />
+        ))
+      ) : (
+        <Loader />
+      )}
     </Wrapper>
   );
 };

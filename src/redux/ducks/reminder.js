@@ -1,5 +1,6 @@
 const SET_REMINDERS = "setreminders";
 const ARCHIVE_REMINDERS = "archivereminders";
+const SET_LOADER = "setloader";
 export const GET_REMINDERS = "getreminders";
 
 export const setReminders = (reminders) => ({
@@ -16,9 +17,15 @@ export const archiveReminders = (allSelects) => ({
   allSelects,
 });
 
+export const setLoader = (payload) => ({
+  type: SET_LOADER,
+  payload,
+});
+
 const initialState = {
   reminders: undefined,
   totalReminders: 0,
+  loader: false,
 };
 
 const getTotal = (reminders) => {
@@ -43,6 +50,11 @@ export default function (state = initialState, action) {
       const { reminders } = action;
       // console.log({...state,reminders,totalReminders:getTotal(reminders)});
       return { ...state, reminders, totalReminders: getTotal(reminders) };
+
+    case SET_LOADER:
+      const { payload } = action;
+      // console.log({...state,todos});
+      return { ...state, loader: payload };
 
     default:
       return state;

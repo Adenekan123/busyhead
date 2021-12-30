@@ -5,6 +5,9 @@ import { Wrapper } from "./Login.styles";
 
 import { BASE_API_URL } from "../../utils/constant";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Login = ({ setIsAuth }) => {
   const [state, setState] = useState({
     username: "",
@@ -14,7 +17,6 @@ const Login = ({ setIsAuth }) => {
   const navigate = useNavigate();
 
   const updateinput = (e) => {
-    console.log(e.target.value);
     setState((prevstate) => ({
       ...prevstate,
       [e.target.name]: e.target.value,
@@ -23,6 +25,8 @@ const Login = ({ setIsAuth }) => {
 
   async function loginUser(event) {
     event.preventDefault();
+
+    const id = toast.loading("Authenticating User");
     try {
       const response = await fetch(`${BASE_API_URL}/login`, {
         method: "POST",
@@ -36,10 +40,24 @@ const Login = ({ setIsAuth }) => {
       const result = await response.json();
       console.log(result);
       if (result.loggedin == true) {
-        console.log("setting is Auth");
+        toast.update(id, {
+          render: "Login Successful",
+          type: "success",
+          isLoading: false,
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 7000,
+        });
         setIsAuth(true);
         localStorage.setItem("isAuth", true);
         return navigate("/", { replace: true });
+      } else {
+        toast.update(id, {
+          render: "Invalid Username or Password",
+          type: "error",
+          isLoading: false,
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 7000,
+        });
       }
     } catch (err) {
       setIsAuth(false);
@@ -76,6 +94,7 @@ const Login = ({ setIsAuth }) => {
           New user ? <Link to="/adduser">Create new account</Link>
         </p>
       </form>
+      <ToastContainer autoClose={8000} />
     </Wrapper>
   );
 };

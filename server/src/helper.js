@@ -194,7 +194,6 @@ const activateTasks = async (Document1, Document2, { _id, tasks, user }) => {
   // const due_date = new Date(date).toLocaleDateString();
   // const date_diff = getDifferenceInDays(cur_date,due_date);
   for (let i = 0; i < tasks.length; i++) {
-    console.log(new Date(tasks[i].date) - new Date());
     if (new Date(tasks[i].date) - new Date() > 60000) return false;
     console.log("deleting a task");
     await moveTasks(Document1, Document2, _id, [tasks[i]._id], user);
@@ -233,10 +232,12 @@ getDueDocs = (docs, cur_date) => {
   return docs.map((doc) => (doc.tasks = getDueTasks(doc, cur_date)));
 };
 
-const activateDueTasks = async (Document1, Document2) => {
+const activateDueTasks = async (Document1, Document2, userid) => {
+  console.log(userid);
   const cur_date = formatDate();
 
   const docs = await Document1.find({
+    user: userid,
     tasks: { $elemMatch: { date: { $regex: ".*" + cur_date + ".*" } } },
   });
   console.log({ docs, cur_date });

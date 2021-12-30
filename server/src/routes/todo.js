@@ -1,10 +1,13 @@
 const express = require("express");
 const cron = require("node-cron");
+const mongoose = require("mongoose");
 
 const Todo = require("../model/todo");
 const Recycle = require("../model/recycle");
 const Archive = require("../model/archive");
 const Reminder = require("../model/reminder");
+
+var userid = mongoose.Types.ObjectId();
 
 //Helper
 const {
@@ -22,8 +25,8 @@ const Router = express.Router();
 
 Router.get("/api/todos", isLoggedIn, async (req, res) => {
   try {
-    console.log(req.user);
     const todos = await fetchDocs(Todo, req.user._id);
+    userid = req.user._id;
     res.json(todos);
   } catch (err) {
     res.json({ failed: true, data: [] });
@@ -32,6 +35,7 @@ Router.get("/api/todos", isLoggedIn, async (req, res) => {
 
 Router.get("/api/todos/:docid/:id", isLoggedIn, async (req, res) => {
   const { docid: todoid, id } = req.params;
+  console.log(req.params);
   try {
     const todo = await fetchTaskById(Todo, todoid, id, req.user._id);
     if (todo != null) return res.json({ failed: false, data: todo });
@@ -156,7 +160,7 @@ Router.post("/api/todos/remind", isLoggedIn, async (req, res) => {
 // Check task the needs to be reminded every minutes
 cron.schedule("* * * * *", () => {
   console.log("running a task every minute");
-  activateDueTasks(Todo, Reminder);
+  activateDueTasks(Todo, Reminder, userid);
 });
 
 module.exports = Router;
