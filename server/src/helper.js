@@ -185,8 +185,12 @@ const getDifferenceInDays = (date1, date2) => {
 
 const diffDays = (date, otherDate) =>
   Math.ceil(Math.abs(date - otherDate) / (1000 * 60 * 60 * 24));
-const diffMins = (date, otherDate) =>
-  parseInt((Math.abs(otherDate.getTime() - date.getTime()) / (1000 * 60)) % 60);
+const diffMins = (futuredate) =>
+  parseInt(
+    (Math.abs(new Date(futuredate).getTime() - new Date().getTime()) /
+      (1000 * 60)) %
+      60
+  );
 
 const activateTasks = async (Document1, Document2, { _id, tasks, user }) => {
   // const taskids = tasks.map(task => task._id)
@@ -194,7 +198,8 @@ const activateTasks = async (Document1, Document2, { _id, tasks, user }) => {
   // const due_date = new Date(date).toLocaleDateString();
   // const date_diff = getDifferenceInDays(cur_date,due_date);
   for (let i = 0; i < tasks.length; i++) {
-    if (new Date(tasks[i].date) - new Date() > 60000) return false;
+    if (new Date(tasks[i].date).getTime() - new Date().getTime() > 60000)
+      return false;
     console.log("deleting a task");
     await moveTasks(Document1, Document2, _id, [tasks[i]._id], user);
   }
