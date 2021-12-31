@@ -146,7 +146,7 @@ Router.post("/api/todos/remind", isLoggedIn, async (req, res) => {
 
   try {
     let deletedCount = 0;
-    deletedCount += await moveTasks(Todo, Reminder, docid, [_id]);
+    deletedCount += await moveTasks(Todo, Reminder, docid, [_id], req.user._id);
     if (deletedCount > 0) {
       const todos = await Todo.find({});
       return res.json({ data: todos, deletedCount });
@@ -158,9 +158,9 @@ Router.post("/api/todos/remind", isLoggedIn, async (req, res) => {
 });
 
 // Check task the needs to be reminded every minutes
-cron.schedule("* * * * *", () => {
-  console.log("running a task every minute");
-  activateDueTasks(Todo, Reminder, userid);
-});
+// cron.schedule("* * * * *", () => {
+//   console.log("running a task every minute");
+//   activateDueTasks(Todo, Reminder, userid);
+// });
 
 module.exports = Router;

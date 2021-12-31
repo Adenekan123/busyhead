@@ -16,14 +16,30 @@ const Card = ({ todos, task, docid, showdate, toggleSelect, isSelected }) => {
   let pathname = location.pathname;
   pathname = pathname == "/" ? "/todos" : pathname;
 
-  const callback = () => {
-    const newtodos = [...todos];
-    const todoindex = newtodos.findIndex((todo) => todo._id === docid);
-    newtodos[todoindex].tasks = newtodos[todoindex].tasks.filter(
-      (task) => task._id != _id
-    );
-    dispatch(setTodos(newtodos));
-    dispatch(getReminders());
+  const callback = async () => {
+    // const newtodos = [...todos];
+    // const todoindex = newtodos.findIndex((todo) => todo._id === docid);
+    // newtodos[todoindex].tasks = newtodos[todoindex].tasks.filter(
+    //   (task) => task._id != _id
+    // );
+    try {
+      const response = await fetch(`/api/todos/remind`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ docid, _id }),
+      });
+
+      const { data, deletedCount } = await response.json();
+      if (deletedCount > 0) {
+        dispatch(setTodos(data));
+        dispatch(getReminders());
+      }
+    } catch (err) {
+      Console.log(err);
+    }
   };
 
   return (
