@@ -198,7 +198,7 @@ const activateTasks = async (Document1, Document2, { _id, tasks, user }) => {
   // const due_date = new Date(date).toLocaleDateString();
   // const date_diff = getDifferenceInDays(cur_date,due_date);
   for (let i = 0; i < tasks.length; i++) {
-    if (new Date(tasks[i].date).getTime() - new Date().getTime() > 60000)
+    if (new Date(tasks[i].date).getTime() - new Date().getTime() > 120000)
       return false;
     console.log("deleting a task");
     await moveTasks(Document1, Document2, _id, [tasks[i]._id], user);
