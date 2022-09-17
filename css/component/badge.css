@@ -1,0 +1,17 @@
+.badge-group {
+    margin: 2rem;
+    font-size: 1.5rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 1.5rem 1rem;
+}
+
+.badge:not(:last-of-type) {
+    margin-right: 1rem;
+}
+
+.badge-rounded {
+    border-radius: 2rem;
+}

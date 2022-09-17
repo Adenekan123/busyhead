@@ -1,0 +1,38 @@
+:root {
+    --layers-in-chain: 12;
+    --chain-gutter: 15px;
+    --chain-margin: 15px;
+    --layout-space: 40px;
+    --layout-size-1: 1.5rem;
+    --layout-size-2: 2rem;
+    /* colors */
+    --red: rgb(255, 0, 0);
+    --green: rgb(0, 197, 0);
+    --blue: rgb(37, 146, 248);
+    --yellow: gold;
+    --orange: rgb(255, 136, 0);
+    --black: rgb(27, 27, 27);
+    --white: rgb(250, 250, 250);
+    --light: rgb(212, 212, 212);
+    --transparent: transparent;
+    --arrow-right: "\203A";
+}
+
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: #333;
+    overflow-x: hidden;
+}

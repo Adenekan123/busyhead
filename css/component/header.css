@@ -1,0 +1,405 @@
+header.header,
+div.header,
+section.header {
+    height: 7rem;
+    width: 100%;
+    padding: 0 var(--layout-space);
+    background-color: var(--white);
+    color: var(--black);
+    font-size: var(--layout-size-1);
+    display: flex;
+    align-items: center;
+    z-index: 2;
+}
+
+.header .logoBx {
+    font-size: var(--layout-size-2);
+    text-transform: capitalize;
+    font-weight: bold;
+    color: inherit;
+}
+
+.header .logoBx img {
+    height: 10rem;
+}
+
+.header ul,
+.header~ul {
+    display: flex;
+    list-style: none;
+    transition: transform .3s ease-out;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    font-size: var(--layout-size-1);
+}
+
+.header ul li,
+.header~ul li {
+    padding: 1rem 2rem;
+}
+
+.header ul li a,
+.header~ul li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.header .toggler,
+.header~.toggler {
+    width: 3rem;
+    height: 3rem;
+    /* border: 1px solid; */
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    order: 1;
+    z-index: 1;
+    display: none;
+}
+
+.header #toggler-menu:checked+label.toggler,
+.header~#toggler-menu:checked+label.toggler {
+    margin-left: auto;
+}
+
+.header #toggler-menu:checked+label.toggler span:nth-child(3),
+.header~#toggler-menu:checked+label.toggler span:nth-child(3) {
+    opacity: 0;
+}
+
+.header #toggler-menu:checked+label.toggler span:nth-child(1),
+.header~#toggler-menu:checked+label.toggler span:nth-child(1) {
+    transform: rotateZ(40deg);
+    transform-origin: left;
+    /* width: 100%; */
+}
+
+.header #toggler-menu:checked+label.toggler span:nth-child(2),
+.header~#toggler-menu:checked+label.toggler span:nth-child(2) {
+    transform: rotateZ(-55deg);
+    transform-origin: bottom;
+}
+
+.header .toggler span,
+.header~.toggler span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--black);
+    border-radius: 20rem;
+    transition: transform .2s linear;
+}
+
+.header .toggler span:not(:last-of-type),
+.header~.toggler span:not(:last-of-type) {
+    margin-bottom: .65rem;
+    width: 80%;
+}
+
+.header #toggler-menu,
+.header~#toggler-menu {
+    display: none;
+}
+
+.header-mobile ul {
+    transform: translateX(2.5rem);
+    opacity: 0;
+}
+
+.header-mobile .toggler {
+    display: block;
+}
+
+.header-mobile #toggler-menu,
+.header-mobile #toggler-menu:checked~ul {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.header-aside ul {
+    position: fixed;
+    top: 7rem;
+    right: 0;
+    width: 30rem;
+    /* padding: 2rem; */
+    min-width: 30rem;
+    height: calc(100% - 7rem);
+    display: block;
+    opacity: 1;
+    background-color: var(--light);
+    color: inherit;
+    z-index: 1000;
+    transition: min-width, width .2s ease;
+    overflow: hidden;
+    /* opacity: 0; */
+}
+
+.header-aside~ul {
+    position: -ms-page;
+    top: 0;
+    right: 0;
+    width: 30rem;
+    /* padding: 2rem; */
+    min-width: 30rem;
+    height: calc(100vh - 7rem);
+    display: block;
+    opacity: 1;
+    background-color: var(--light);
+    color: inherit;
+    z-index: 1000;
+    transition: min-width, width .2s ease;
+    overflow: hidden;
+    /* opacity: 0; */
+}
+
+.header-aside ul li,
+.header-aside~ul li {
+    white-space: nowrap;
+    margin-top: 3rem;
+}
+
+.header-aside ul li .icon,
+.header-aside~ul li .icon {
+    display: inline-block;
+    width: 5rem;
+    margin-right: 0rem;
+}
+
+.header-aside ul li a,
+.header-aside~ul li a {
+    display: inline-block;
+}
+
+.header-aside ul li .icon svg,
+.header-aside ul li .icon img,
+.header-aside~ul li .icon svg,
+.header-aside~ul li .icon img {
+    width: 2rem;
+    height: 2rem;
+}
+
+.header-aside .toggler,
+.header-aside~.toggler {
+    display: block;
+    margin-left: auto;
+}
+
+.header-aside #toggler-menu:checked~ul,
+.header-aside~#toggler-menu:checked~ul {
+    width: 7rem;
+    min-width: 7rem;
+    /* opacity: 1; */
+}
+
+
+/* large screen (lg) */
+
+@media(max-width:1200px) {
+    .header-mobile-lg {
+        justify-content: space-between;
+        z-index: 2;
+    }
+    .header-mobile-lg ul {
+        position: absolute;
+        top: 7rem;
+        left: 0;
+        width: 100%;
+        display: block;
+        background-color: inherit;
+        padding: 2rem;
+        transform: translateY(-2.5rem);
+        opacity: 0;
+    }
+    .header-mobile-lg .toggler {
+        display: block;
+    }
+    .header-mobile-lg #toggler-menu,
+    .header-mobile-lg #toggler-menu:checked~ul {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .header-aside-lg ul {
+        position: fixed;
+        top: 7rem;
+        right: 0;
+        width: 0px;
+        padding: 2rem;
+        min-width: 0px;
+        height: calc(100% - 7rem);
+        display: block;
+        opacity: 1;
+        background-color: var(--light);
+        color: inherit;
+        z-index: 1000;
+        transition: min-width .2s ease;
+        opacity: 0;
+    }
+    .header-aside-lg .toggler {
+        display: block;
+        margin-left: auto;
+    }
+    .header-aside-lg #toggler-menu:checked~ul {
+        min-width: 300px;
+        opacity: 1;
+    }
+}
+
+
+/* medium screen (md) */
+
+@media(max-width:900px) {
+    .header-mobile-md {
+        justify-content: space-between;
+        z-index: 2;
+    }
+    .header-mobile-md ul {
+        position: absolute;
+        top: 7rem;
+        left: 0;
+        width: 100%;
+        display: block;
+        background-color: inherit;
+        padding: 2rem;
+        transform: translateY(-2.5rem);
+        opacity: 0;
+    }
+    .header-mobile-md .toggler {
+        display: block;
+    }
+    .header-mobile-md #toggler-menu,
+    .header-mobile-md #toggler-menu:checked~ul {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .header-aside-md ul {
+        position: fixed;
+        top: 7rem;
+        right: 0;
+        width: 0px;
+        padding: 2rem;
+        min-width: 0px;
+        height: calc(100% - 7rem);
+        display: block;
+        opacity: 1;
+        background-color: var(--light);
+        color: inherit;
+        z-index: 1000;
+        transition: min-width .2s ease;
+        opacity: 0;
+    }
+    .header-aside-md .toggler {
+        display: block;
+        margin-left: auto;
+    }
+    .header-aside-md #toggler-menu:checked~ul {
+        min-width: 300px;
+        opacity: 1;
+    }
+}
+
+
+/* small screen (sm) */
+
+@media(max-width:750px) {
+    .header-mobile-sm {
+        justify-content: space-between;
+        z-index: 2;
+    }
+    .header-mobile-sm ul {
+        position: absolute;
+        top: 7rem;
+        left: 0;
+        width: 100%;
+        display: block;
+        background-color: inherit;
+        padding: 2rem;
+        transform: translateY(-2.5rem);
+        opacity: 0;
+    }
+    .header-mobile-sm .toggler {
+        display: block;
+    }
+    .header-mobile-sm #toggler-menu,
+    .header-mobile-sm #toggler-menu:checked~ul {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .header-aside-sm ul {
+        position: fixed;
+        top: 7rem;
+        right: 0;
+        width: 0px;
+        padding: 2rem;
+        min-width: 0px;
+        height: calc(100% - 7rem);
+        display: block;
+        opacity: 1;
+        background-color: var(--light);
+        color: inherit;
+        z-index: 1000;
+        transition: min-width .2s ease;
+        opacity: 0;
+    }
+    .header-aside-sm .toggler {
+        display: block;
+        margin-left: auto;
+    }
+    .header-aside-sm #toggler-menu:checked~ul {
+        min-width: 300px;
+        opacity: 1;
+    }
+}
+
+
+/* small screen (xs) */
+
+@media(max-width:400px) {
+    .header-mobile-xs {
+        justify-content: space-between;
+        z-index: 2;
+    }
+    .header-mobile-xs ul {
+        position: absolute;
+        top: 7rem;
+        left: 0;
+        width: 100%;
+        display: block;
+        background-color: inherit;
+        padding: 2rem;
+        transform: translateY(-2.5rem);
+        opacity: 0;
+    }
+    .header-mobile-xs .toggler {
+        display: block;
+    }
+    .header-mobile-xs #toggler-menu,
+    .header-mobile-xs #toggler-menu:checked~ul {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .header-aside-xs ul {
+        position: fixed;
+        top: 7rem;
+        right: 0;
+        width: 0px;
+        padding: 2rem;
+        min-width: 0px;
+        height: calc(100% - 7rem);
+        display: block;
+        opacity: 1;
+        background-color: var(--light);
+        color: inherit;
+        z-index: 1000;
+        transition: min-width .2s ease;
+        opacity: 0;
+    }
+    .header-aside-xs .toggler {
+        display: block;
+        margin-left: auto;
+    }
+    .header-aside-xs #toggler-menu:checked~ul {
+        min-width: 300px;
+        opacity: 1;
+    }
+}

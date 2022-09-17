@@ -1,0 +1,5 @@
+/* Shadow Styles */
+
+.soft-shadow {
+    box-shadow: 0 4px 6px rgba(129, 129, 129, 0.2);
+}
